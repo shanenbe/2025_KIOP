@@ -1,5 +1,7 @@
 import {LTerm} from "./LTerm";
 import {Type} from "../types/Type";
+import {Environment} from "../Environment";
+import {Function_Type} from "../types/Function_Type";
 
 export class Abstraction extends LTerm {
 
@@ -59,5 +61,19 @@ export class Abstraction extends LTerm {
         }
 
         return ret;
+    }
+
+    /**
+     *       new_Env = E,(varname:var_type) |- body: T1
+     * T-Abs: ==============================================
+     *           E |- Lvarname:var_type.body : var_type->T1
+     */
+
+    type_of(e: Environment): Type {
+        let new_Env = e.new_Environment_with(this.varname, this.var_type);
+
+        let T1 = this.body.type_of(new_Env);
+
+        return new Function_Type(this.var_type.clone(), T1.clone())
     }
 }

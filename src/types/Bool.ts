@@ -5,4 +5,8 @@ export class Bool extends Type {
         return new Bool();
     }
 
+    equals(T: Type): boolean {
+        return T instanceof Bool;
+    }
+
 }

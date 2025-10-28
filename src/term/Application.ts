@@ -1,5 +1,11 @@
 import {LTerm} from "./LTerm";
 import {Abstraction} from "./Abstraction";
+import {Environment} from "../Environment";
+import {Type} from "../types/Type";
+import {Function_Type} from "../types/Function_Type";
+import {Plus} from "./Plus";
+import {Plus1} from "./Plus1";
+import {Number_Term} from "./Number_Term";
 
 export class Application extends LTerm {
     left: LTerm;
@@ -44,6 +50,10 @@ export class Application extends LTerm {
             // HHHHIIIILLLLLFFFFEEEEEE!!!!!
             return body.replace_free_variable(
                 this.left.varname, this.right.clone());
+        } else if (this.left instanceof Plus) {
+            return new Plus1(this.right.clone());
+        } else if (this.left instanceof Plus1) {
+            return new Number_Term(this.left.first + this.right)
         }
 
         throw "Something went wrong";
@@ -66,5 +76,20 @@ export class Application extends LTerm {
 
         // ??????????????????????????
         return [...left_fv, ...right_fv];
+    }
+
+
+    /**
+     *            E |- left: T1->T   E |-right: T1
+     * T-App: ==============================================
+     *           E |- left right: T
+     */
+
+    type_of(e: Environment): Type {
+        let T1 = this.right.type_of(e);
+        let f: Function_Type = this.left.type_of(e) as Function_Type;
+        if(f.left.equals(T1))
+            return f.right;
+        throw "Invalid Type";
     }
 }

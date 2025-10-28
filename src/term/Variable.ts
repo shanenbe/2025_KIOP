@@ -1,4 +1,6 @@
 import {LTerm} from "./LTerm";
+import {Environment} from "../Environment";
+import {Type} from "../types/Type";
 
 export class Variable extends LTerm {
 
@@ -31,5 +33,19 @@ export class Variable extends LTerm {
         } else {
             return this.clone();
         }
+    }
+
+    /**
+     *             (name,T) € E
+     * T-Var: ==============================================
+     *           E |- name: T
+     */
+    type_of(e: Environment): Type {
+        if (e.has_variable(this.name)) {
+            throw "var has no type";
+        } else {
+            return e.type_of_var(this.name);
+        }
+        throw "Invlid stuff.....do I understand TypeScript?";
     }
 }
