@@ -47,13 +47,14 @@ export class Application extends LTerm {
                                   )
         } else if (this.left instanceof Abstraction) {
             let body = this.left.body.clone();
-            // HHHHIIIILLLLLFFFFEEEEEE!!!!!
             return body.replace_free_variable(
                 this.left.varname, this.right.clone());
         } else if (this.left instanceof Plus) {
             return new Plus1(this.right.clone());
         } else if (this.left instanceof Plus1) {
-            return new Number_Term(this.left.first + this.right)
+            return new Number_Term(
+                (this.left.first as Number_Term).num +
+                (this.right as Number_Term).num)
         }
 
         throw "Something went wrong";

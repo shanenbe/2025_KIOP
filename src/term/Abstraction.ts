@@ -2,6 +2,7 @@ import {LTerm} from "./LTerm";
 import {Type} from "../types/Type";
 import {Environment} from "../Environment";
 import {Function_Type} from "../types/Function_Type";
+import {Variable} from "./Variable";
 
 export class Abstraction extends LTerm {
 
@@ -33,11 +34,37 @@ export class Abstraction extends LTerm {
         throw "Nö...keine Reduktion von Abstracton";
     }
 
+    private alpha_convert(s: LTerm) {
+        let new_identifier = this.create_new_identifier(s);
+        let new_body = this.body.clone().replace_free_variable(this.varname, new Variable(new_identifier));
+        return new Abstraction(new_identifier, this.var_type.clone(), new_body);
+    }
+
+    private create_new_identifier(s: LTerm) {
+        let free_vars = this.free_variables();
+        let free_vars_s = s.free_variables();
+        let new_name = "x";
+
+        while(free_vars.includes(new_name) || free_vars_s.includes(new_name)) {
+            new_name = new_name + "x";
+        }
+
+        return new_name;
+    }
+
     replace_free_variable(varname: string, lTerm: LTerm): LTerm {
+
+
         let free_variables = lTerm.free_variables();
 
-        if(free_variables.includes(this.varname)) {
+        // x != y
+        if(this.varname == varname) {
+            return this.clone();
+        }
 
+        // y € FI(s)
+        if(free_variables.includes(this.varname)) {
+            return this.alpha_convert(lTerm).replace_free_variable(varname, lTerm);
         }
 
         return new Abstraction(
@@ -76,4 +103,6 @@ export class Abstraction extends LTerm {
 
         return new Function_Type(this.var_type.clone(), T1.clone())
     }
+
+
 }

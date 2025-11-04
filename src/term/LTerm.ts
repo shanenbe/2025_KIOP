@@ -2,6 +2,7 @@ import {Type} from "../types/Type";
 import {Environment} from "../Environment";
 
 export abstract class LTerm {
+    abstract equals(term: LTerm): boolean;
     abstract reduce():LTerm;
     abstract is_reducible(): boolean;
     abstract clone():LTerm ;
