@@ -33,4 +33,11 @@ export class Number_Term extends LTerm {
     type_of(e: Environment): Type {
         return new Number();
     }
+
+    equals(term: LTerm): boolean {
+        if(term instanceof Number_Term) {
+            return this.num === term.num;
+        }
+        return false;
+    }
 }

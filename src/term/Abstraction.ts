@@ -104,5 +104,11 @@ export class Abstraction extends LTerm {
         return new Function_Type(this.var_type.clone(), T1.clone())
     }
 
+    equals(term: LTerm): boolean {
+        if(term instanceof Abstraction)
+            return this.body.equals(term.body);
+        return false;
+    }
+
 
 }

@@ -6,6 +6,7 @@ import {Function_Type} from "../types/Function_Type";
 import {Plus} from "./Plus";
 import {Plus1} from "./Plus1";
 import {Number_Term} from "./Number_Term";
+import {False} from "./False";
 
 export class Application extends LTerm {
     left: LTerm;
@@ -92,5 +93,11 @@ export class Application extends LTerm {
         if(f.left.equals(T1))
             return f.right;
         throw "Invalid Type";
+    }
+
+    equals(term: LTerm): boolean {
+        if(term instanceof Application)
+            return this.left.equals(term.left) && this.right.equals(term.right);
+        return false;
     }
 }

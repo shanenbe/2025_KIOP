@@ -41,11 +41,18 @@ export class Variable extends LTerm {
      *           E |- name: T
      */
     type_of(e: Environment): Type {
-        if (e.has_variable(this.name)) {
+        if (!e.has_variable(this.name)) {
             throw "var has no type";
         } else {
             return e.type_of_var(this.name);
         }
         throw "Invlid stuff.....do I understand TypeScript?";
+    }
+
+    equals(term: LTerm): boolean {
+        if(term instanceof Variable) {
+            return this.name === term.name;
+        }
+        return false;
     }
 }
