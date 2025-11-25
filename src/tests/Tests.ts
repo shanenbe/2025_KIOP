@@ -14,6 +14,11 @@ import {Number} from "../types/Number";
 import {Function_Type} from "../types/Function_Type";
 import {False} from "../term/False";
 import {If} from "../term/If";
+import {Not} from "../term/Not";
+import {Plus} from "../term/Plus";
+import {Equals} from "../term/Equals";
+import {Minus} from "../term/Minus";
+import {Fix} from "../term/Fix";
 
 export function APP(l: LTerm, r: LTerm) {
     return new Application(l, r);
@@ -21,6 +26,18 @@ export function APP(l: LTerm, r: LTerm) {
 
 export function TRUE() {
     return new True();
+}
+
+export function PLUS() {
+    return new Plus();
+}
+
+export function MINUS() {
+    return new Minus();
+}
+
+export function NOT() {
+    return new Not();
 }
 
 export function FALSE() {
@@ -45,6 +62,10 @@ export function ABS(a: string, b: Type, c: LTerm) {
     return new Abstraction(a, b, c);
 }
 
+export function FIX(t: LTerm) {
+    return new Fix(t);
+}
+
 export function VAR(x: string) {
     return new Variable(x);
 }
@@ -59,6 +80,10 @@ export function N(n: number): Number_Term {
 
 export function IF(c: LTerm, t1:LTerm, t2:LTerm) {
     return new If(c, t1, t2);
+}
+
+export function EQU() {
+    return new Equals();
 }
 
 export function guarantee(b: boolean, text: string) {

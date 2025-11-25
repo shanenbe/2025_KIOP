@@ -3,8 +3,9 @@ import {Environment} from "../Environment";
 import {LTerm} from "./LTerm";
 import {Function_Type} from "../types/Function_Type";
 import {Number} from "../types/Number";
+import {Bool} from "../types/Bool";
 
-export class Plus1 extends LTerm {
+export class Equals1 extends LTerm {
 
     first: LTerm;
 
@@ -14,7 +15,7 @@ export class Plus1 extends LTerm {
     }
 
     clone(): LTerm {
-        return new Plus1(this.first.clone());
+        return new Equals1(this.first.clone());
     }
 
     free_variables(): string[] {
@@ -30,15 +31,15 @@ export class Plus1 extends LTerm {
     }
 
     replace_free_variable(varname: string, lTerm: LTerm): LTerm {
-        return new Plus1(this.first.replace_free_variable(varname, lTerm));
+        return new Equals1(this.first.replace_free_variable(varname, lTerm));
     }
 
     type_of(e: Environment): Type {
-        return new Function_Type(new Number(), new Number());
+        return new Function_Type(new Number(), new Bool());
     }
 
     equals(term: LTerm): boolean {
-        return term instanceof Plus1 && term.first.equals(this.first);
+        return term instanceof Equals1 && term.first.equals(this.first);
     }
 
 }

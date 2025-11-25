@@ -3,22 +3,15 @@ import {Environment} from "../Environment";
 import {LTerm} from "./LTerm";
 import {Function_Type} from "../types/Function_Type";
 import {Number} from "../types/Number";
+import {Bool} from "../types/Bool";
 
-export class Plus1 extends LTerm {
-
-    first: LTerm;
-
-    constructor(first: LTerm) {
-        super();
-        this.first = first;
-    }
-
+export class Equals extends LTerm {
     clone(): LTerm {
-        return new Plus1(this.first.clone());
+        return new Equals();
     }
 
     free_variables(): string[] {
-        return this.first.free_variables();
+        return [];
     }
 
     is_reducible(): boolean {
@@ -26,19 +19,19 @@ export class Plus1 extends LTerm {
     }
 
     reduce(): LTerm {
-        throw "asdfsadf";
+        throw "aölkjdfasdf";
     }
 
     replace_free_variable(varname: string, lTerm: LTerm): LTerm {
-        return new Plus1(this.first.replace_free_variable(varname, lTerm));
+        return this.clone();
     }
 
     type_of(e: Environment): Type {
-        return new Function_Type(new Number(), new Number());
+        return new Function_Type(new Number(), new Function_Type(new Number(), new Bool()));
     }
 
     equals(term: LTerm): boolean {
-        return term instanceof Plus1 && term.first.equals(this.first);
+        return term instanceof Equals;
     }
 
 }

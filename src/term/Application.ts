@@ -7,6 +7,12 @@ import {Plus} from "./Plus";
 import {Plus1} from "./Plus1";
 import {Number_Term} from "./Number_Term";
 import {False} from "./False";
+import {Not} from "./Not";
+import {True} from "./True";
+import {Minus} from "./Minus";
+import {Minus1} from "./Minus1";
+import {Equals} from "./Equals";
+import {Equals1} from "./Equals1";
 
 export class Application extends LTerm {
     left: LTerm;
@@ -23,6 +29,13 @@ export class Application extends LTerm {
         return  this.left.is_reducible()
                 || this.right.is_reducible()
                 || this.left instanceof Abstraction
+                || this.left instanceof Plus
+                || this.left instanceof Plus1
+                || this.left instanceof Minus
+                || this.left instanceof Minus1
+                || this.left instanceof Equals
+                || this.left instanceof Equals1
+                || this.left instanceof Not;
     }
 
     reduce():LTerm {
@@ -56,6 +69,27 @@ export class Application extends LTerm {
             return new Number_Term(
                 (this.left.first as Number_Term).num +
                 (this.right as Number_Term).num)
+        } else if (this.left instanceof Minus) {
+            return new Minus1(this.right.clone());
+        } else if (this.left instanceof Minus1) {
+            return new Number_Term(
+                (this.left.first as Number_Term).num -
+                (this.right as Number_Term).num)
+        } else if (this.left instanceof Equals) {
+            return new Equals1(this.right.clone());
+        } else if (this.left instanceof Equals1) {
+            if((this.left.first as Number_Term).num == (this.right as Number_Term).num) {
+                return new True();
+            } else {
+                return new False();
+            }
+        } else if (this.left instanceof Not) {
+            if(this.right.equals(new True())) {
+                return new False();
+            } else if (this.right.equals(new False())) {
+                return new True();
+            }
+            throw "Panic!";
         }
 
         throw "Something went wrong";

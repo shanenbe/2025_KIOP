@@ -1,12 +1,17 @@
 import {Type} from "../types/Type";
 import {Environment} from "../Environment";
 import {LTerm} from "./LTerm";
+import {Bool} from "../types/Bool";
 import {Function_Type} from "../types/Function_Type";
-import {Number} from "../types/Number";
 
-export class Plus extends LTerm {
+export class Not extends LTerm {
+
     clone(): LTerm {
-        return new Plus();
+        return new Not();
+    }
+
+    equals(term: LTerm): boolean {
+        return term instanceof Not;
     }
 
     free_variables(): string[] {
@@ -18,19 +23,14 @@ export class Plus extends LTerm {
     }
 
     reduce(): LTerm {
-        throw "aölkjdfasdf";
+        throw "I cannot reduce";
     }
 
     replace_free_variable(varname: string, lTerm: LTerm): LTerm {
         return this.clone();
     }
 
-    type_of(e: Environment): Type {
-        return new Function_Type(new Number(), new Function_Type(new Number(), new Number()));
+    type_of(e: Environment): Function_Type {
+        return new Function_Type(new Bool(), new Bool());
     }
-
-    equals(term: LTerm): boolean {
-        return term instanceof Plus;
-    }
-
-}
+ }

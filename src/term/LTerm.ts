@@ -10,4 +10,12 @@ export abstract class LTerm {
     abstract free_variables(): string[];
     abstract type_of(e: Environment): Type;
 
+    reduce_all() {
+        let that: LTerm = this;
+        while (that.is_reducible()) {
+            that = that.reduce();
+        }
+        return that;
+    }
+
 }

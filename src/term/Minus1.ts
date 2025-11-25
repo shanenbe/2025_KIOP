@@ -4,7 +4,7 @@ import {LTerm} from "./LTerm";
 import {Function_Type} from "../types/Function_Type";
 import {Number} from "../types/Number";
 
-export class Plus1 extends LTerm {
+export class Minus1 extends LTerm {
 
     first: LTerm;
 
@@ -14,7 +14,7 @@ export class Plus1 extends LTerm {
     }
 
     clone(): LTerm {
-        return new Plus1(this.first.clone());
+        return new Minus1(this.first.clone());
     }
 
     free_variables(): string[] {
@@ -30,7 +30,7 @@ export class Plus1 extends LTerm {
     }
 
     replace_free_variable(varname: string, lTerm: LTerm): LTerm {
-        return new Plus1(this.first.replace_free_variable(varname, lTerm));
+        return new Minus1(this.first.replace_free_variable(varname, lTerm));
     }
 
     type_of(e: Environment): Type {
@@ -38,7 +38,7 @@ export class Plus1 extends LTerm {
     }
 
     equals(term: LTerm): boolean {
-        return term instanceof Plus1 && term.first.equals(this.first);
+        return term instanceof Minus1 && term.first.equals(this.first);
     }
 
 }
