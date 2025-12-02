@@ -1,6 +1,7 @@
 import {LTerm} from "./LTerm";
 import {Environment} from "../Environment";
 import {Type} from "../types/Type";
+import {Storage} from "../Storage";
 
 export class Variable extends LTerm {
 
@@ -23,7 +24,7 @@ export class Variable extends LTerm {
         return new Variable(this.name);
     }
 
-    reduce(): LTerm {
+    reduce(storage: Storage): LTerm {
         throw "Nö";
     }
 

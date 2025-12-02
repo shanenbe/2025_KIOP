@@ -3,6 +3,7 @@ import {Environment} from "../Environment";
 import {LTerm} from "./LTerm";
 import {Function_Type} from "../types/Function_Type";
 import {Number} from "../types/Number";
+import {Storage} from "../Storage";
 
 export class Plus extends LTerm {
     clone(): LTerm {
@@ -17,7 +18,7 @@ export class Plus extends LTerm {
         return false;
     }
 
-    reduce(): LTerm {
+    reduce(storage: Storage): LTerm {
         throw "aölkjdfasdf";
     }
 

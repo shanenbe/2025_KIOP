@@ -10,10 +10,11 @@ import {Variable} from "../term/Variable";
 import {Abstraction} from "../term/Abstraction";
 import {Environment} from "../Environment";
 import {ABS, APP, BOOL, EQU, F, FALSE, FIX, guarantee, IF, MINUS, N, NOT, NUM, PLUS, TRUE, VAR} from "./Tests";
+import {Storage} from "../Storage";
 
 // (Lx:Bool.x) true -> true;
 let app = APP(ABS("x", BOOL(), VAR("x")), TRUE());
-let result = app.reduce();
+let result = app.reduce(new Storage([]));
 
 guarantee(result.equals(TRUE()), "(Lx:Bool.x) true -> true;");
 

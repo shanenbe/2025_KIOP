@@ -47,7 +47,7 @@ export class ref extends LTerm {
 
     reduce(storage: Storage): LTerm {
         if(this.term.is_reducible())
-            return new ref(this.term.reduce());
+            return new ref(this.term.reduce(storage));
 
         let T = this.term.type_of(new Environment([], []));
         storage.push(this.term.clone());

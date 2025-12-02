@@ -19,9 +19,19 @@ import {Plus} from "../term/Plus";
 import {Equals} from "../term/Equals";
 import {Minus} from "../term/Minus";
 import {Fix} from "../term/Fix";
+import {Record} from "../term/Record";
+import {Record_Type} from "../types/Record_Type";
 
 export function APP(l: LTerm, r: LTerm) {
     return new Application(l, r);
+}
+
+export function REC(l: string[], t: LTerm[]) {
+    return new Record(l, t);
+}
+
+export function RT(l: string[], t: Type[]) {
+    return new Record_Type(l, t);
 }
 
 export function TRUE() {

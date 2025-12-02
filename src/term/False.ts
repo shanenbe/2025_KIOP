@@ -2,6 +2,7 @@ import {Type} from "../types/Type";
 import {Environment} from "../Environment";
 import {LTerm} from "./LTerm";
 import {Bool} from "../types/Bool";
+import {Storage} from "../Storage";
 
 export class False extends LTerm {
 
@@ -21,7 +22,7 @@ export class False extends LTerm {
         return false;
     }
 
-    reduce(): LTerm {
+    reduce(storage: Storage): LTerm {
         throw "I cannot reduce";
     }
 

@@ -3,6 +3,7 @@ import {Type} from "../types/Type";
 import {Environment} from "../Environment";
 import {Function_Type} from "../types/Function_Type";
 import {Variable} from "./Variable";
+import {Storage} from "../Storage";
 
 export class Abstraction extends LTerm {
 
@@ -30,7 +31,7 @@ export class Abstraction extends LTerm {
         return false;
     }
 
-    reduce(): LTerm {
+    reduce(storage: Storage): LTerm {
         throw "Nö...keine Reduktion von Abstracton";
     }
 

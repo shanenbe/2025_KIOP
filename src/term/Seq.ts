@@ -3,6 +3,7 @@ import {Environment} from "../Environment";
 import {LTerm} from "./LTerm";
 import {Bool} from "../types/Bool";
 import {False} from "./False";
+import {Storage} from "../Storage";
 
 export class Seq extends LTerm {
 
@@ -33,9 +34,9 @@ export class Seq extends LTerm {
         return true;
     }
 
-    reduce(): LTerm {
+    reduce(storage: Storage): LTerm {
         if(this.left.is_reducible()) {
-            return new Seq(this.left.reduce(), this.right.clone())
+            return new Seq(this.left.reduce(storage), this.right.clone())
         } else {
             return this.right.clone();
         }

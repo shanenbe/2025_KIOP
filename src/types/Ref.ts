@@ -10,6 +10,13 @@ export class Ref extends Type {
         this.T = T;
     }
 
+    is_subtype_of(that_type: Type): boolean {
+        if(!(that_type instanceof Ref)) return false;
+
+        return this.T.equals(that_type.T);
+
+    }
+
     clone(): Type {
         return new Ref(this.T.clone());
     }

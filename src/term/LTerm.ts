@@ -1,9 +1,10 @@
 import {Type} from "../types/Type";
 import {Environment} from "../Environment";
+import {Storage} from "../Storage";
 
 export abstract class LTerm {
     abstract equals(term: LTerm): boolean;
-    abstract reduce():LTerm;
+    abstract reduce(storage: Storage):LTerm;
     abstract is_reducible(): boolean;
     abstract clone():LTerm ;
     abstract replace_free_variable(varname: string, lTerm: LTerm): LTerm;
@@ -12,8 +13,9 @@ export abstract class LTerm {
 
     reduce_all() {
         let that: LTerm = this;
+        let storage = new Storage([]);
         while (that.is_reducible()) {
-            that = that.reduce();
+            that = that.reduce(storage);
         }
         return that;
     }

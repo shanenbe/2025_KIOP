@@ -6,6 +6,7 @@ import {False} from "./False";
 import {Bool} from "../types/Bool";
 import {Abstraction} from "./Abstraction";
 import {Function_Type} from "../types/Function_Type";
+import {Storage} from "../Storage";
 
 export class Fix extends LTerm {
 
@@ -35,9 +36,9 @@ export class Fix extends LTerm {
         return true;
     }
 
-    reduce(): LTerm {
+    reduce(storage: Storage): LTerm {
         if(this.term.is_reducible()) {
-            return new Fix(this.term.reduce());
+            return new Fix(this.term.reduce(storage));
         }
 
         let this_abstraction = this.term as Abstraction;

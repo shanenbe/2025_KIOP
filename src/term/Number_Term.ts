@@ -2,6 +2,7 @@ import {Type} from "../types/Type";
 import {Environment} from "../Environment";
 import {LTerm} from "./LTerm";
 import {Number} from "../types/Number";
+import {Storage} from "../Storage";
 
 export class Number_Term extends LTerm {
     constructor(num: number) {
@@ -22,7 +23,7 @@ export class Number_Term extends LTerm {
         return false;
     }
 
-    reduce(): LTerm {
+    reduce(storage: Storage): LTerm {
         throw "sadfsadf";
     }
 

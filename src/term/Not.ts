@@ -3,6 +3,7 @@ import {Environment} from "../Environment";
 import {LTerm} from "./LTerm";
 import {Bool} from "../types/Bool";
 import {Function_Type} from "../types/Function_Type";
+import {Storage} from "../Storage";
 
 export class Not extends LTerm {
 
@@ -22,7 +23,7 @@ export class Not extends LTerm {
         return false;
     }
 
-    reduce(): LTerm {
+    reduce(storage: Storage): LTerm {
         throw "I cannot reduce";
     }
 

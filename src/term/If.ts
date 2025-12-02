@@ -4,6 +4,7 @@ import {Type} from "../types/Type";
 import {True} from "./True";
 import {False} from "./False";
 import {Bool} from "../types/Bool";
+import {Storage} from "../Storage";
 
 export class If extends LTerm {
 
@@ -42,14 +43,14 @@ export class If extends LTerm {
         return true;
     }
 
-    reduce(): LTerm {
+    reduce(storage: Storage): LTerm {
 
         /**                    c -> c'
          *      E-if' ======================================================
          *                  if(c) then t1 else t2 -> if(c') then t1 else t2
          */
         if(this.condition.is_reducible()) {
-            return new If(this.condition.reduce(), this.then_branch.clone(), this.else_branch.clone());
+            return new If(this.condition.reduce(storage), this.then_branch.clone(), this.else_branch.clone());
         }
 
         /**

@@ -4,6 +4,7 @@ import {LTerm} from "./LTerm";
 import {Function_Type} from "../types/Function_Type";
 import {Number} from "../types/Number";
 import {Plus} from "./Plus";
+import {Storage} from "../Storage";
 
 export class Minus extends LTerm {
     clone(): LTerm {
@@ -18,7 +19,7 @@ export class Minus extends LTerm {
         return false;
     }
 
-    reduce(): LTerm {
+    reduce(storage: Storage): LTerm {
         throw "aölkjdfasdf";
     }
 

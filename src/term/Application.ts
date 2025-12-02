@@ -13,6 +13,7 @@ import {Minus} from "./Minus";
 import {Minus1} from "./Minus1";
 import {Equals} from "./Equals";
 import {Equals1} from "./Equals1";
+import {Storage} from "../Storage";
 
 export class Application extends LTerm {
     left: LTerm;
@@ -38,7 +39,7 @@ export class Application extends LTerm {
                 || this.left instanceof Not;
     }
 
-    reduce():LTerm {
+    reduce(storage: Storage):LTerm {
         if(this.left.is_reducible()) {
             /**
              *                  t1 -> t1'
@@ -46,7 +47,7 @@ export class Application extends LTerm {
              *                 t1 t2 -> t1' t2
              */
             return new Application(
-                                    this.left.reduce(),
+                                    this.left.reduce(storage),
                                     this.right.clone()
             );
         } else if (this.right.is_reducible()) {
@@ -57,7 +58,7 @@ export class Application extends LTerm {
              */
             return new Application(
                                         this.left.clone(),
-                                        this.right.reduce()
+                                        this.right.reduce(storage)
                                   )
         } else if (this.left instanceof Abstraction) {
             let body = this.left.body.clone();
@@ -124,9 +125,10 @@ export class Application extends LTerm {
     type_of(e: Environment): Type {
         let T1 = this.right.type_of(e);
         let f: Function_Type = this.left.type_of(e) as Function_Type;
-        if(f.left.equals(T1))
+        if(T1.is_subtype_of(f.left)) {
             return f.right;
-        throw "Invalid Type";
+        }
+        throw "Invalid Type in Application";
     }
 
     equals(term: LTerm): boolean {
