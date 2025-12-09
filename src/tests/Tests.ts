@@ -30,6 +30,7 @@ import {Unit} from "../term/Unit";
 import {Ref} from "../types/Ref";
 import {ref} from "../term/ref";
 import {Storage} from "../Storage";
+import {Let} from "../term/Let";
 
 export function APP(l: LTerm, r: LTerm) {
     return new Application(l, r);
@@ -148,4 +149,8 @@ export function R(l: LTerm):ref {
 
 export function S(): Storage {
     return new Storage([]);
+}
+
+export function LET(n: string, t: LTerm, b: LTerm) {
+    return new Let(n, t, b);
 }

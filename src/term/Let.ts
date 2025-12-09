@@ -8,6 +8,10 @@ import {Abstraction} from "./Abstraction";
 
 export class Let extends LTerm {
 
+    to_string(): string {
+        return "let " + this.varname + "=" + this.term.to_string() + " IN " + this.body.to_string();
+    }
+
     varname: string;
     term: LTerm;
     body: LTerm;

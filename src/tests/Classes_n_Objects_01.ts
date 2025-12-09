@@ -22,9 +22,13 @@ let Counter = Livar:{i: Ref(Number)}.
                          this.geti unit;
               }
 
+let Counter_Object = fix(Counter {i=0]) in
+  Counter_Object.get_inc unit;
+  Counter_Object.get_inc unit;
+
 * */
 
-import {ABS, APP, ASS, DEREF, E, F, FIX, N, NUM, PJ, PLUS, R, REC, REF, RT, S, SEQ, UNIT, UT, VAR} from "./Tests";
+import {ABS, APP, ASS, DEREF, E, F, FIX, LET, N, NUM, PJ, PLUS, R, REC, REF, RT, S, SEQ, UNIT, UT, VAR} from "./Tests";
 import {Unit_Type} from "../types/Unit_Type";
 
 let ivar_i = PJ(VAR("ivar"), "i");
@@ -60,12 +64,12 @@ let Counter = ABS("ivar", RT(["i"], [REF(NUM())]),
                             )
                          )
 
-let Counter_object_term = FIX(APP(Counter, REC(["i"], [R(N(0))])));
-let t = Counter_object_term.type_of(E());
+let program = LET("Counter_Object", FIX(APP(Counter, REC(["i"], [R(N(0))]))), SEQ(
+                                                                                                            APP(PJ(VAR("Counter_Object"), "get_inc"), UNIT()),
+                                                                                                            APP(PJ(VAR("Counter_Object"), "get_inc"), UNIT())
+));
 
+let t = program.type_of(E());
+let result = program.reduce_all()
 
-let aufruf_get_inc = APP(PJ(Counter_object_term, "get_inc"), UNIT());
-t = aufruf_get_inc.type_of(E());
-
-let new_term = aufruf_get_inc.reduce_all()
-console.log(new_term);
+console.log(result.to_string() + " : " + t.to_string());
