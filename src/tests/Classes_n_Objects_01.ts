@@ -22,7 +22,7 @@ let Counter = Livar:{i: Ref(Number)}.
                          this.geti unit;
               }
 
-let Counter_Object = fix(Counter {i=0]) in
+let Counter_Object = fix(Counter {i=ref(0)]) in
   Counter_Object.get_inc unit;
   Counter_Object.get_inc unit;
 
