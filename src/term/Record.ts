@@ -65,8 +65,9 @@ export class Record extends LTerm {
 
         for(let i=0; i<this.terms.length; i++) {
             label_clone.push(this.labels[i]);
-            if(!this.terms[i].is_reducible() && reduce_flag == false) {
+            if(this.terms[i].is_reducible() && reduce_flag == false) {
                 terms_clone.push(this.terms[i].reduce(storage));
+                reduce_flag = true;
             } else {
                 terms_clone.push(this.terms[i].clone());
             }

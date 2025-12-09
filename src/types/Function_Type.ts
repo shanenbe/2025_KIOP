@@ -3,7 +3,7 @@ import {Number} from "./Number";
 
 export class Function_Type extends Type {
     to_string(): string {
-        return "(" + this.left.to_string() + ") -> (" + this.right.to_string() + ")s";
+        return "(" + this.left.to_string() + ") -> (" + this.right.to_string() + ")";
     }
 
     left: Type;

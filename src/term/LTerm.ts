@@ -14,11 +14,12 @@ export abstract class LTerm {
     reduce_all() {
         let that: LTerm = this;
         let storage = new Storage([]);
+        let that_original = that.to_string();
+        console.log(that_original + "----->");
         while (that.is_reducible()) {
-            let that_original = that.to_string();
             that = that.reduce(storage);
             let that_reduced = that.to_string();
-            console.log(that_reduced + "----->" + that_reduced);
+            console.log(that_reduced + "----->");
         }
         return that;
     }
