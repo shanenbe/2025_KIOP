@@ -12,7 +12,7 @@ export class Record extends LTerm {
     to_string(): string {
         let ret = [];
         for (let i = 0; i < this.labels.length; i++) {
-            ret.push(this.labels[i] + ":" + this.terms[i]);
+            ret.push(this.labels[i] + ":" + this.terms[i].to_string());
         }
         return "{" + ret.join(",") + "}";
     }
