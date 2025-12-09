@@ -5,6 +5,9 @@ import {Bool} from "../types/Bool";
 import {Storage} from "../Storage";
 
 export class True extends LTerm {
+    to_string(): string {
+        return "true";
+    }
 
     clone(): LTerm {
         return new True();

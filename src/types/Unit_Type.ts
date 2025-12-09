@@ -1,20 +1,20 @@
 import {Type} from "./Type";
 
-export class Bool extends Type {
+export class Unit_Type extends Type {
     to_string(): string {
-        return "Bool";
+        return "Unit";
     }
 
     is_subtype_of(that_type: Type): boolean {
-        return that_type.equals(new Bool())
+        return that_type.equals(new Unit_Type())
     }
 
     clone(): Type {
-        return new Bool();
+        return new Unit_Type();
     }
 
     equals(T: Type): boolean {
-        return T instanceof Bool;
+        return T instanceof Unit_Type;
     }
 
 }

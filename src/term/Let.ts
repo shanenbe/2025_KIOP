@@ -4,45 +4,49 @@ import {Environment} from "../Environment";
 import {Function_Type} from "../types/Function_Type";
 import {Variable} from "./Variable";
 import {Storage} from "../Storage";
+import {Abstraction} from "./Abstraction";
 
-export class Abstraction extends LTerm {
+export class Let extends LTerm {
 
     varname: string;
-    var_type: Type;
+    term: LTerm;
     body: LTerm;
 
-    constructor(varname: string, var_type: Type, body: LTerm) {
+    constructor(varname: string, term: LTerm, body: LTerm) {
         super();
         this.varname = varname;
-        this.var_type = var_type;
+        this.term = term;
         this.body = body;
     }
 
-    clone(): Abstraction {
-        return new Abstraction(
+    clone(): Let {
+        return new Let(
                                     this.varname,
-                                    this.var_type.clone(),
+                                    this.term.clone(),
                                     this.body.clone()
                               );
     }
 
-    // CALL BY VALUE!!!
     is_reducible(): boolean {
-        return false;
+        return true;
     }
 
     reduce(storage: Storage): LTerm {
-        throw "Nö...keine Reduktion von Abstracton";
+        if (this.term.is_reducible()) {
+            return new Let(this.varname, this.term.reduce(storage).clone(), this.body.clone());
+        }
+
+        return this.body.replace_free_variable(this.varname, this.term.clone());
     }
 
     private alpha_convert(s: LTerm) {
         let new_identifier = this.create_new_identifier(s);
         let new_body = this.body.clone().replace_free_variable(this.varname, new Variable(new_identifier));
-        return new Abstraction(new_identifier, this.var_type.clone(), new_body);
+        return new Let(new_identifier, this.term.clone(), new_body);
     }
 
     private create_new_identifier(s: LTerm) {
-        let free_vars = this.free_variables();
+        let free_vars = this.body.free_variables();
         let free_vars_s = s.free_variables();
         let new_name = "x";
 
@@ -54,65 +58,61 @@ export class Abstraction extends LTerm {
     }
 
     replace_free_variable(varname: string, lTerm: LTerm): LTerm {
+        let this_new_term = this.term.replace_free_variable(varname, lTerm.clone());
 
+        if(this.varname == varname) {
+            return new Let(this.varname, this_new_term, this.body.clone());
+        }
 
         let free_variables = lTerm.free_variables();
-
-        // x != y
-        if(this.varname == varname) {
-            return this.clone();
-        }
 
         // y € FI(s)
         if(free_variables.includes(this.varname)) {
             return this.alpha_convert(lTerm).replace_free_variable(varname, lTerm);
         }
 
-        return new Abstraction(
-                this.varname,
-                this.var_type.clone(),
-                this.body.replace_free_variable(varname, lTerm).clone()
-            );
 
+        let this_new_body = this.body.replace_free_variable(varname, lTerm.clone());
 
+        return new Let(this.varname, this_new_term, this_new_body);
     }
 
     free_variables(): string[] {
 
         let ret = [];
 
-        let body_fv = this.body.free_variables();
+        let fv = this.body.free_variables();
 
-        for (let var_n of body_fv) {
+        for (let var_n of fv) {
             if(var_n != this.varname)
                 ret.push(var_n);
         }
 
+        fv = this.term.free_variables();
+
+        for (let var_n of fv) {
+            if(var_n != this.varname)
+                ret.push(var_n);
+        }
         return ret;
     }
 
-    /**
-     *       new_Env = E,(varname:var_type) |- body: T1
-     * T-Abs: ==============================================
-     *           E |- Lvarname:var_type.body : var_type->T1
-     */
-
     type_of(e: Environment): Type {
-        let new_Env = e.new_Environment_with(this.varname, this.var_type);
+        let term_type = this.term.type_of(e);
+        let new_Env = e.new_Environment_with(this.varname, term_type);
 
         let T1 = this.body.type_of(new_Env);
 
-        return new Function_Type(this.var_type.clone(), T1.clone())
+        return T1;
     }
 
     equals(term: LTerm): boolean {
-        if(term instanceof Abstraction)
-            return this.body.equals(term.body);
-        return false;
-    }
+        if(term instanceof Let)
+            return this.varname == term.varname &&
+                    this.term.equals(term.term) &&
+                    this.body.equals(term.body);
 
-    to_string() {
-        return "L" + this.varname + ":" + this.var_type.to_string() + "." + this.body.to_string();
+        return false;
     }
 
 }

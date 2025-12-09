@@ -3,6 +3,13 @@ import {Bool} from "./Bool";
 import {Function_Type} from "./Function_Type";
 
 export class Record_Type extends Type {
+    to_string(): string {
+        let ret = [];
+        for (let i = 0; i < this.labels.length; i++) {
+            ret.push(this.labels[i] + ":" + this.types[i].to_string());
+        }
+        return "{" + ret.join(",") + "}";
+    }
 
     labels: string[];
     types: Type[];

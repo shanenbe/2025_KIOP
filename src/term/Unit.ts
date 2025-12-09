@@ -1,21 +1,21 @@
 import {Type} from "../types/Type";
 import {Environment} from "../Environment";
 import {LTerm} from "./LTerm";
-import {Number} from "../types/Number";
+import {Bool} from "../types/Bool";
 import {Storage} from "../Storage";
+import {Unit_Type} from "../types/Unit_Type";
 
-export class Number_Term extends LTerm {
+export class Unit extends LTerm {
     to_string(): string {
-        return "" + this.num;
+        return "unit";
     }
-    constructor(num: number) {
-        super();
-        this.num = num;
-    }
-    num: number;
 
     clone(): LTerm {
-        return new Number_Term(this.num);
+        return new Unit();
+    }
+
+    equals(term: LTerm): boolean {
+        return term instanceof Unit;
     }
 
     free_variables(): string[] {
@@ -27,7 +27,7 @@ export class Number_Term extends LTerm {
     }
 
     reduce(storage: Storage): LTerm {
-        throw "sadfsadf";
+        throw "I cannot reduce";
     }
 
     replace_free_variable(varname: string, lTerm: LTerm): LTerm {
@@ -35,13 +35,6 @@ export class Number_Term extends LTerm {
     }
 
     type_of(e: Environment): Type {
-        return new Number();
-    }
-
-    equals(term: LTerm): boolean {
-        if(term instanceof Number_Term) {
-            return this.num === term.num;
-        }
-        return false;
+        return new Unit_Type();
     }
 }

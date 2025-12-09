@@ -15,9 +15,13 @@ export abstract class LTerm {
         let that: LTerm = this;
         let storage = new Storage([]);
         while (that.is_reducible()) {
+            let that_original = that.to_string();
             that = that.reduce(storage);
+            let that_reduced = that.to_string();
+            console.log(that_reduced + "----->" + that_reduced);
         }
         return that;
     }
 
+    abstract to_string(): string;
 }

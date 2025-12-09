@@ -6,6 +6,9 @@ import {Number} from "../types/Number";
 import {Storage} from "../Storage";
 
 export class Plus extends LTerm {
+    to_string(): string {
+        return "+";
+    }
     clone(): LTerm {
         return new Plus();
     }

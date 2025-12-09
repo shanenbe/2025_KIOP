@@ -4,6 +4,9 @@ import {Type} from "../types/Type";
 import {Storage} from "../Storage";
 
 export class Variable extends LTerm {
+    to_string(): string {
+        return this.name;
+    }
 
     name: string;
 

@@ -1,6 +1,9 @@
 import {Type} from "./Type";
 
 export class Number extends Type {
+    to_string(): string {
+        return "Number";
+    }
 
     is_subtype_of(that_type: Type): boolean {
         return that_type.equals(new Number())

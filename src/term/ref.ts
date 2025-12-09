@@ -9,6 +9,9 @@ import {Address} from "./Address";
 import {Storage} from "../Storage";
 
 export class ref extends LTerm {
+    to_string(): string {
+        return "ref(" + this.term.to_string() + ")";
+    }
     constructor(term: LTerm) {
         super();
         this.term = term;

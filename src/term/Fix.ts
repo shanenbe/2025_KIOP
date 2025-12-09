@@ -9,6 +9,9 @@ import {Function_Type} from "../types/Function_Type";
 import {Storage} from "../Storage";
 
 export class Fix extends LTerm {
+    to_string(): string {
+        return "fix(" + this.term.to_string() + ")";
+    }
 
     term: LTerm;
 

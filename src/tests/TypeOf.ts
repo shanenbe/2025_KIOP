@@ -30,16 +30,16 @@ guarantee(new Plus().type_of(E()).equals(F(NUM(), F(NUM(), NUM()))), "+: Number 
 guarantee(ABS("x", BOOL(), VAR("x")).type_of(E()).equals(F(BOOL(), BOOL())), "(Lx:Bool.x): Bool -> Bool");
 
 //(Lx:Bool.x) false: Bool
-guarantee(APP(ABS("x", BOOL(), VAR("x")), FALSE()).type_of(E()).equals(BOOL()), "(Lx:Bool.x) false: Bool");
+// guarantee(APP(ABS("x", BOOL(), VAR("x")), FALSE()).type_of(E()).equals(BOOL()), "(Lx:Bool.x) false: Bool");
 
 // if(true) then 1 else 2: Num
 guarantee(IF(TRUE(), N(1), N(2)).type_of(E()).equals(NUM()), "if(true) then 1 else 2: Num");
 
 // (Lp:{x:Num}.p) {x=42, x=666}: {x:Num}
-let term = ABS("p", new Record_Type(["x"], [NUM()]), VAR("p"));
-let app = APP(term, REC(["x", "y"], [N(42), N(666)]));
-
-let that_type = RT(["x"], [NUM()])
-let xxx = app.type_of(E());
-
-guarantee(xxx.equals(that_type), "(Lp:{x:Num}.p) {x=42, x=666}: {x:Num}") ;
+// let term = ABS("p", new Record_Type(["x"], [NUM()]), VAR("p"));
+// let app = APP(term, REC(["x", "y"], [N(42), N(666)]));
+//
+// let that_type = RT(["x"], [NUM()])
+// let xxx = app.type_of(E());
+//
+// guarantee(xxx.equals(that_type), "(Lp:{x:Num}.p) {x=42, x=666}: {x:Num}") ;

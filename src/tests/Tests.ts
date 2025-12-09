@@ -21,6 +21,15 @@ import {Minus} from "../term/Minus";
 import {Fix} from "../term/Fix";
 import {Record} from "../term/Record";
 import {Record_Type} from "../types/Record_Type";
+import {Unit_Type} from "../types/Unit_Type";
+import {Assign} from "../term/Assign";
+import {Projection} from "../term/Projection";
+import {Deref} from "../term/Deref";
+import {Seq} from "../term/Seq";
+import {Unit} from "../term/Unit";
+import {Ref} from "../types/Ref";
+import {ref} from "../term/ref";
+import {Storage} from "../Storage";
 
 export function APP(l: LTerm, r: LTerm) {
     return new Application(l, r);
@@ -103,4 +112,40 @@ export function guarantee(b: boolean, text: string) {
     }
 
     console.log("OK: " + text);
+}
+
+export function UNIT() {
+    return new Unit();
+}
+
+export function UT() {
+    return new Unit_Type();
+}
+
+export function REF(t:Type) {
+    return new Ref(t);
+}
+
+export function ASS(left: LTerm, right:LTerm) {
+    return new Assign(left, right);
+}
+
+export function PJ(record: LTerm, label:string) {
+    return new Projection(record, label);
+}
+
+export function DEREF(term: LTerm) {
+    return new Deref(term);
+}
+
+export function SEQ(l:LTerm, r:LTerm) {
+    return new Seq(l, r);
+}
+
+export function R(l: LTerm):ref {
+    return new ref(l);
+}
+
+export function S(): Storage {
+    return new Storage([]);
 }

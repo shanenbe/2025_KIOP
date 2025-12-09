@@ -2,6 +2,9 @@ import {Type} from "./Type";
 import {Number} from "./Number";
 
 export class Function_Type extends Type {
+    to_string(): string {
+        return "(" + this.left.to_string() + ") -> (" + this.right.to_string() + ")s";
+    }
 
     left: Type;
     right: Type;

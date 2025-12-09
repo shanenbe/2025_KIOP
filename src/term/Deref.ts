@@ -8,24 +8,27 @@ import {Storage} from "../Storage";
 import {Minus} from "./Minus";
 import {Record} from "./Record";
 import {Record_Type} from "../types/Record_Type";
+import {Projection} from "./Projection";
+import {Address} from "./Address";
+import {Unit} from "./Unit";
+import {Unit_Type} from "../types/Unit_Type";
+import {Assign} from "./Assign";
+import {Ref} from "../types/Ref";
 
-export class Projection extends LTerm {
-
+export class Deref extends LTerm {
     to_string(): string {
-        return "(" + this.term.to_string() + "." + this.label + ")";
+        return "!" + this.term.to_string();
     }
 
     term: LTerm;
-    label: string;
 
-    constructor(term: LTerm, label: string) {
+    constructor(term: LTerm) {
         super();
         this.term = term;
-        this.label = label;
     }
 
     clone(): LTerm {
-        return new Projection(this.term.clone(), this.label);
+        return new Deref(this.term.clone());
     }
 
     free_variables(): string[] {
@@ -38,26 +41,27 @@ export class Projection extends LTerm {
 
     reduce(storage: Storage): LTerm {
         if(this.term.is_reducible()) {
-            return new Projection(this.term.reduce(storage), this.label);
+            return new Deref(this.term.reduce(storage));
         }
 
-        let this_record = this.term as Record;
-
-        return this_record.terms[this_record.labels.indexOf(this.label)];
+        let this_address = this.term as Address;
+        return this_address.get_value(storage);
     }
 
     replace_free_variable(varname: string, lTerm: LTerm): LTerm {
-        return new Projection(this.term.replace_free_variable(varname, lTerm), this.label);
+        return new Deref(this.term.replace_free_variable(varname, lTerm));
     }
 
     type_of(e: Environment): Type {
-        let r_type: Record_Type = this.term.type_of(e) as Record_Type;
-        return r_type.types[r_type.labels.indexOf(this.label)];
+        let this_ref_type = this.term.type_of(e) as Ref;
+        return this_ref_type.T;
     }
 
     equals(term: LTerm): boolean {
-        if(!(term instanceof Projection)) {return false}
-        return this.term.equals(term.term) && this.label == term.label;
+        if(term instanceof Deref) {
+            return this.term.equals(term.term);
+        }
+        return false;
     }
 
 }

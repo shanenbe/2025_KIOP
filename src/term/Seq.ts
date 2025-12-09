@@ -6,6 +6,9 @@ import {False} from "./False";
 import {Storage} from "../Storage";
 
 export class Seq extends LTerm {
+    to_string(): string {
+        return this.left.to_string() + "; " + this.right.to_string();
+    }
 
     left: LTerm;
     right: LTerm;

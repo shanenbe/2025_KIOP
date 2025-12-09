@@ -9,6 +9,14 @@ import {Record_Type} from "../types/Record_Type";
 
 export class Record extends LTerm {
 
+    to_string(): string {
+        let ret = [];
+        for (let i = 0; i < this.labels.length; i++) {
+            ret.push(this.labels[i] + ":" + this.terms[i]);
+        }
+        return "{" + ret.join(",") + "}";
+    }
+
     labels: string[];
     terms: LTerm[];
 

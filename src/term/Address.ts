@@ -9,6 +9,9 @@ import {ref} from "./ref";
 import {Storage} from "../Storage";
 
 export class Address extends LTerm {
+    to_string(): string {
+        return "(#" + this.index_in_storage +")";
+    }
     constructor(index_in_storage: number, type: Type) {
         super();
         this.index_in_storage = index_in_storage;
@@ -48,5 +51,13 @@ export class Address extends LTerm {
     reduce(storage: Storage): LTerm {
 
         throw "asdfsadfsafd";
+    }
+
+    set_value(storage: Storage, lTerm: LTerm) {
+        storage.terms[this.index_in_storage] = lTerm;
+    }
+
+    get_value(storage: Storage) {
+        return storage.terms[this.index_in_storage];
     }
 }

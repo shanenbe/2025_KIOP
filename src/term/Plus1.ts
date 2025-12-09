@@ -6,6 +6,9 @@ import {Number} from "../types/Number";
 import {Storage} from "../Storage";
 
 export class Plus1 extends LTerm {
+    to_string(): string {
+        return "(+ " + this.first.to_string() + ")";
+    }
 
     first: LTerm;
 

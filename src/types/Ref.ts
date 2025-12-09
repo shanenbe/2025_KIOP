@@ -2,6 +2,9 @@ import {Type} from "./Type";
 import {Bool} from "./Bool";
 
 export class Ref extends Type {
+    to_string(): string {
+        return "Ref(" + this.T.to_string() + ")";
+    }
 
     T: Type;
 
