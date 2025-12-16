@@ -37,16 +37,16 @@ let Counter = Livar:{i: Ref(Number)}.
                                 get_inc2: Unit -> Number
                     }.
 
-                    let super = Counter ivar this  IN
+                    let super = Ld:Unit.Counter ivar this  IN
                    {
                      inc = Ld:Unit.
-                             super.inc unit,
+                             super unit.inc unit,
                      geti: Ld:Unit.
                              42,
                      get_inc: Ld:Unit.
-                             super.get_inc unit,
+                             super unit.get_inc unit,
                      get_inc2: Ld:Unit.
-                             super.get_inc unit,
+                             super unit.get_inc unit,
                   }
 
 
@@ -80,32 +80,7 @@ let inner_rec_Counter = REC(["inc", "geti", "get_inc"],
                                 ),
                             ]
 );
-/*
-let Counter2 =  Livar:{i: Ref(Number)}.
-                Lthis:{
-                            inc: Unit->Unit,
-                            geti: Unit-> Number,
-                            get_inc: Unit -> Number,
-                            get_inc2: Unit -> Number
-                }.
 
-                let super = Counter ivar this  IN
-
-
-               {
-                 inc = Ld:Unit.
-                         super.inc unit,
-                 geti: Ld:Unit.
-                         42,
-                 get_inc: Ld:Unit.
-                         super.get_inc unit,
-                 get_inc2: Ld:Unit.
-                         super.get_inc unit,
-              } IN
-   let c2 = fix(Counter2 {i=ref(0)}) IN
-     c2.get_inc2 unit
-
- */
 function super_call(function_name: string) {
     return APP(PJ(APP(VAR("super"), UNIT()), function_name), UNIT())
 }
@@ -165,11 +140,10 @@ let program =
     LET("Counter", Counter,
         LET("Counter2", Counter2,
             LET("c2", FIX(APP(VAR("Counter2"), ivar0)),
-                function_call("c2", "get_inc2")
-                // SEQ(
-                //     function_call("c2", "get_inc2"),
-                //     function_call("c2", "get_inc2")
-
+                SEQ(
+                    function_call("c2", "get_inc"),
+                    function_call("c2", "get_inc2")
+                )
             )
         )
 );
