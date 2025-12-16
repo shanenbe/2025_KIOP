@@ -104,9 +104,13 @@ export class Application extends LTerm {
     }
 
     replace_free_variable(varname: string, lTerm: LTerm): LTerm {
+
+        let new_left = this.left.replace_free_variable(varname, lTerm.clone());
+        let new_right = this.right.replace_free_variable(varname, lTerm.clone());
+
         return new Application(
-            this.left.replace_free_variable(varname, lTerm.clone()),
-            this.right.replace_free_variable(varname, lTerm.clone())
+            new_left,
+            new_right
         )
     }
 

@@ -19,7 +19,8 @@ export abstract class LTerm {
         while (that.is_reducible()) {
             that = that.reduce(storage);
             let that_reduced = that.to_string();
-            // console.log(that_reduced + "----->");
+
+            console.log(that_reduced + "----->");
         }
         return that;
     }

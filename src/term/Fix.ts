@@ -36,7 +36,7 @@ export class Fix extends LTerm {
     }
 
     is_reducible(): boolean {
-        return true;
+        return this.term.is_reducible() || this.term instanceof Abstraction;
     }
 
     reduce(storage: Storage): LTerm {
@@ -54,7 +54,7 @@ export class Fix extends LTerm {
     }
 
     replace_free_variable(varname: string, lTerm: LTerm): LTerm {
-        return new Fix(this.term.replace_free_variable(varname, this.clone()));
+        return new Fix(this.term.replace_free_variable(varname, lTerm.clone()));
     }
 
     /**           E |- t: T -> T

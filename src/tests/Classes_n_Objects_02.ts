@@ -107,7 +107,7 @@ let Counter2 =  Livar:{i: Ref(Number)}.
 
  */
 function super_call(function_name: string) {
-    return APP(PJ(VAR("super"), function_name), UNIT())
+    return APP(PJ(APP(VAR("super"), UNIT()), function_name), UNIT())
 }
 
 function function_call(target: string, function_name: string) {
@@ -151,7 +151,7 @@ let Counter2 = ABS("ivar", RT(["i"], [REF(NUM())]),
                 F(UT(), NUM()),
                 F(UT(), NUM())
             ]),
-        LET("super",APP(APP(VAR("Counter"), VAR("ivar")), VAR("this")),
+        LET("super",ABS("d", UT(), APP(APP(VAR("Counter"), VAR("ivar")), VAR("this"))),
             inner_rec_Counter2
         )
     )
@@ -165,12 +165,13 @@ let program =
     LET("Counter", Counter,
         LET("Counter2", Counter2,
             LET("c2", FIX(APP(VAR("Counter2"), ivar0)),
-                SEQ(
-                    function_call("c2", "get_inc2"),
-                    function_call("c2", "get_inc2")
+                function_call("c2", "get_inc2")
+                // SEQ(
+                //     function_call("c2", "get_inc2"),
+                //     function_call("c2", "get_inc2")
 
-            ))
-        ),
+            )
+        )
 );
 
 let t = program.type_of(E());

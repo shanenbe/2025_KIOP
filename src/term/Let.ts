@@ -37,10 +37,12 @@ export class Let extends LTerm {
 
     reduce(storage: Storage): LTerm {
         if (this.term.is_reducible()) {
-            return new Let(this.varname, this.term.reduce(storage).clone(), this.body.clone());
+            let ret1 = new Let(this.varname, this.term.reduce(storage).clone(), this.body.clone());
+            return ret1;
         }
 
-        return this.body.replace_free_variable(this.varname, this.term.clone());
+        let ret_2 = this.body.replace_free_variable(this.varname, this.term.clone());
+        return ret_2;
     }
 
     private alpha_convert(s: LTerm) {
@@ -72,13 +74,15 @@ export class Let extends LTerm {
 
         // y € FI(s)
         if(free_variables.includes(this.varname)) {
-            return this.alpha_convert(lTerm).replace_free_variable(varname, lTerm);
+            let alpha_converted_term = this.alpha_convert(lTerm);
+            return alpha_converted_term.replace_free_variable(varname, lTerm.clone());
         }
 
 
         let this_new_body = this.body.replace_free_variable(varname, lTerm.clone());
 
-        return new Let(this.varname, this_new_term, this_new_body);
+        let ret: LTerm = new Let(this.varname, this_new_term, this_new_body);
+        return ret;
     }
 
     free_variables(): string[] {
